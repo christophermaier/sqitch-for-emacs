@@ -13,6 +13,17 @@ Ensure the files are on your load path, and require the modes:
 (require 'sqitch-mode)
 ```
 
+Alternatively, if you favor
+[el-get](https://github.com/dimitri/el-get), you can use this recipe:
+
+```el
+(:name sqitch
+       :description "Emacs modes for interacting with Sqitch projects"
+       :type github
+       :pkgname "christophermaier/sqitch-for-emacs"
+       :features (sqitch-mode sqitch-plan-mode))
+```
+
 # The Modes
 
 ## `sqitch-mode`
