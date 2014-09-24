@@ -91,8 +91,13 @@
     nil
   (setq sqitch-plan-mode-map (make-sparse-keymap))
   (define-key sqitch-plan-mode-map (kbd "C-c d") 'sqitch-plan-find-deploy-script)
+  (define-key sqitch-plan-mode-map (kbd "C-c C-d") 'sqitch-plan-find-deploy-script)
+
   (define-key sqitch-plan-mode-map (kbd "C-c v") 'sqitch-plan-find-verify-script)
-  (define-key sqitch-plan-mode-map (kbd "C-c r") 'sqitch-plan-find-revert-script))
+  (define-key sqitch-plan-mode-map (kbd "C-c C-v") 'sqitch-plan-find-verify-script)
+
+  (define-key sqitch-plan-mode-map (kbd "C-c r") 'sqitch-plan-find-revert-script)
+  (define-key sqitch-plan-mode-map (kbd "C-c C-r") 'sqitch-plan-find-revert-script))
 
 (define-derived-mode sqitch-plan-mode text-mode "sqitch-plan"
   "Major mode for interacting with Sqitch plan files.

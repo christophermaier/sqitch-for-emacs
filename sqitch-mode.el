@@ -101,9 +101,16 @@
     nil
   (setq sqitch-mode-keymap (make-sparse-keymap))
   (define-key sqitch-mode-keymap (kbd "C-c d") 'sqitch-find-deploy-script)
+  (define-key sqitch-mode-keymap (kbd "C-c C-d") 'sqitch-find-deploy-script)
+
   (define-key sqitch-mode-keymap (kbd "C-c v") 'sqitch-find-verify-script)
+  (define-key sqitch-mode-keymap (kbd "C-c C-v") 'sqitch-find-verify-script)
+
   (define-key sqitch-mode-keymap (kbd "C-c r") 'sqitch-find-revert-script)
-  (define-key sqitch-mode-keymap (kbd "C-c p") 'sqitch-find-plan))
+  (define-key sqitch-mode-keymap (kbd "C-c C-r") 'sqitch-find-revert-script)
+
+  (define-key sqitch-mode-keymap (kbd "C-c p") 'sqitch-find-plan)
+  (define-key sqitch-mode-keymap (kbd "C-c C-p") 'sqitch-find-plan))
 
 (define-minor-mode sqitch-mode
   "Minor mode for interacting with Sqitch SQL scripts."
