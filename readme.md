@@ -42,12 +42,18 @@ Keybinding      | Description
 
 ## `sqitch-plan-mode`
 
-This is a major mode for `sqitch.plan` files. From a given changeset
-line, it allows you to jump directly to the `deploy`, `verify`, and
+This is a major mode for `sqitch.plan` files. With point on a
+changeset label (either at the beginning of a line or in a dependency
+list), it allows you to jump directly to the `deploy`, `verify`, and
 `revert` scripts for that changeset.
 
 Keybinding      | Description
 ----------------|---------------------
-<kbd>C-c d</kbd>| Jump to "deploy" script for changeset on current line
-<kbd>C-c v</kbd>| Jump to "verify" script for changeset on current line
-<kbd>C-c r</kbd>| Jump to "revert" script for changeset on current line
+<kbd>C-c d</kbd>| Jump to "deploy" script for changeset at point
+<kbd>C-c v</kbd>| Jump to "verify" script for changeset at point
+<kbd>C-c r</kbd>| Jump to "revert" script for changeset at point
+
+## TODO
+
+* Make changeset detection more robust; currently does not recognize
+  tagged changesets as such.

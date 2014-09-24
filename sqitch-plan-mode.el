@@ -43,14 +43,13 @@
 ;;; Code:
 
 (require 'derived)
+(require 'thingatpt)
 
-(defun sqitch-plan-changeset-from-current-line ()
-  "(Crudely) Extract the name of the changeset from the current line"
-  (car
-   (split-string
-    (buffer-substring
-     (line-beginning-position)
-     (line-end-position)))))
+(defun sqitch-plan-maybe-changeset-at-point ()
+  "Crude way of (maybe) getting the changeset at point. Not at
+  all guaranteed to actually *be* a changeset, absent a more robust
+  implementation."
+  (thing-at-point 'symbol))
 
 (defun sqitch-plan-find-script (script-type)
   "Opens the SCRIPT-TYPE Sqitch script for the changeset
@@ -58,14 +57,15 @@
 
   SCRIPT-TYPE should be one of \"deploy\", \"verify\", or
   \"revert\"."
-  (let ((changeset (sqitch-plan-changeset-from-current-line)))
+  (let ((changeset (sqitch-plan-maybe-changeset-at-point)))
     (if changeset
         (let* ((script-dir (concat (file-name-directory (buffer-file-name)) script-type))
                (script (concat changeset ".sql"))
                (script-file (concat (file-name-as-directory script-dir)
                                     script)))
           (if (file-exists-p script-file)
-              (find-file script-file))))))
+              (find-file script-file)
+            (message "'%s' is not a sqitch changeset" changeset))))))
 
 (defun sqitch-plan-find-deploy-script ()
   "Open the deploy script for the changeset described by the
