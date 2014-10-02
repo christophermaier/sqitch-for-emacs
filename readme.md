@@ -20,8 +20,7 @@ Alternatively, if you favor
 (:name sqitch
        :description "Emacs modes for interacting with Sqitch projects"
        :type github
-       :pkgname "christophermaier/sqitch-for-emacs"
-       :features (sqitch-mode sqitch-plan-mode))
+       :pkgname "christophermaier/sqitch-for-emacs")
 ```
 
 # The Modes

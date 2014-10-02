@@ -99,11 +99,13 @@
   (define-key sqitch-plan-mode-map (kbd "C-c r") 'sqitch-plan-find-revert-script)
   (define-key sqitch-plan-mode-map (kbd "C-c C-r") 'sqitch-plan-find-revert-script))
 
+;;;###autoload
 (define-derived-mode sqitch-plan-mode text-mode "sqitch-plan"
   "Major mode for interacting with Sqitch plan files.
 
 \\{sqitch-plan-mode-map}")
 
+;;;###autoload
 (add-to-list 'auto-mode-alist '("sqitch\.plan$" . sqitch-plan-mode))
 
 (provide 'sqitch-plan-mode)

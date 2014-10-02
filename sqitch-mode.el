@@ -112,6 +112,7 @@
   (define-key sqitch-mode-keymap (kbd "C-c p") 'sqitch-find-plan)
   (define-key sqitch-mode-keymap (kbd "C-c C-p") 'sqitch-find-plan))
 
+;;;###autoload
 (define-minor-mode sqitch-mode
   "Minor mode for interacting with Sqitch SQL scripts."
   :init-value nil
@@ -126,6 +127,7 @@
                                 (file-name-directory (buffer-file-name))))
                '("deploy" "verify" "revert"))))
 
+;;;###autoload
 (defun sqitch-maybe-enable-mode ()
   "Call this as an sql-mode-hook to determine whether or not to
    turn on the sqitch-mode for the current file."
@@ -134,6 +136,7 @@
       (sqitch-mode)
     (message "The current buffer is NOT a Sqitch script!")))
 
+;;;###autoload
 (add-hook 'sql-mode-hook 'sqitch-maybe-enable-mode)
 
 (provide 'sqitch-mode)
