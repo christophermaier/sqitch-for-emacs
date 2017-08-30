@@ -55,8 +55,8 @@
   "Opens the SCRIPT-TYPE Sqitch script for the changeset
   described by the current line of a Sqitch plan file.
 
-  SCRIPT-TYPE should be one of \"deploy\", \"verify\", or
-  \"revert\"."
+  SCRIPT-TYPE should be one of \"deploy\", \"verify\",
+  \"revert\" or \"test\"."
   (let ((changeset (sqitch-plan-maybe-changeset-at-point)))
     (if changeset
         (let* ((script-dir (concat (file-name-directory (buffer-file-name)) script-type))
@@ -85,6 +85,12 @@
   (interactive)
   (sqitch-plan-find-script "revert"))
 
+(defun sqitch-plan-find-test-script ()
+  "Open the test script for the changeset described by the
+  current line of a Sqitch plan file."
+  (interactive)
+  (sqitch-plan-find-script "test"))
+
 (defvar sqitch-plan-mode-map nil "sqitch-plan-mode keymap")
 
 (if sqitch-plan-mode-map
@@ -97,7 +103,10 @@
   (define-key sqitch-plan-mode-map (kbd "C-c C-v") 'sqitch-plan-find-verify-script)
 
   (define-key sqitch-plan-mode-map (kbd "C-c r") 'sqitch-plan-find-revert-script)
-  (define-key sqitch-plan-mode-map (kbd "C-c C-r") 'sqitch-plan-find-revert-script))
+  (define-key sqitch-plan-mode-map (kbd "C-c C-r") 'sqitch-plan-find-revert-script)
+
+  (define-key sqitch-plan-mode-map (kbd "C-c t") 'sqitch-plan-find-test-script)
+  (define-key sqitch-plan-mode-map (kbd "C-c C-t") 'sqitch-plan-find-test-script))
 
 ;;;###autoload
 (define-derived-mode sqitch-plan-mode text-mode "sqitch-plan"

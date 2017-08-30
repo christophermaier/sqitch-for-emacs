@@ -49,8 +49,8 @@
   "Opens the corresponding SCRIPT-TYPE Sqitch script for
   the current Sqitch script file.
 
-  SCRIPT-TYPE should be one of \"deploy\", \"verify\", or
-  \"revert\"."
+  SCRIPT-TYPE should be one of \"deploy\", \"verify\",
+  \"revert\" or \"test\"."
   (let* ((current-script (buffer-file-name))
          (current-dir (file-name-directory current-script))
          (base-name (file-name-nondirectory current-script))
@@ -81,6 +81,12 @@
   (interactive)
   (sqitch-find-script "revert"))
 
+(defun sqitch-find-test-script ()
+ "Open the corresponding test script for the current Sqitch
+  script."
+  (interactive)
+  (sqitch-find-script "test"))
+
 (defun sqitch-plan-file ()
   "Return the path to the sqitch.plan for the current buffer, if it exists"
   (let ((proj-dir (locate-dominating-file (buffer-file-name) "sqitch.plan")))
@@ -109,6 +115,9 @@
   (define-key sqitch-mode-keymap (kbd "C-c r") 'sqitch-find-revert-script)
   (define-key sqitch-mode-keymap (kbd "C-c C-r") 'sqitch-find-revert-script)
 
+  (define-key sqitch-mode-keymap (kbd "C-c t") 'sqitch-find-test-script)
+  (define-key sqitch-mode-keymap (kbd "C-c C-t") 'sqitch-find-test-script)
+
   (define-key sqitch-mode-keymap (kbd "C-c p") 'sqitch-find-plan)
   (define-key sqitch-mode-keymap (kbd "C-c C-p") 'sqitch-find-plan))
 
@@ -121,11 +130,11 @@
 
 (defun sqitch-script-p ()
   "Indicate whether the current buffer corresponds to a deploy,
-   verify, or revert script in a Sqitch project"
+   verify, revert or test script in a Sqitch project"
   (and (sqitch-plan-file)
        (member (file-name-base (directory-file-name
                                 (file-name-directory (buffer-file-name))))
-               '("deploy" "verify" "revert"))))
+               '("deploy" "verify" "revert" "test"))))
 
 ;;;###autoload
 (defun sqitch-maybe-enable-mode ()
