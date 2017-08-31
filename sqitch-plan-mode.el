@@ -99,11 +99,44 @@
   (define-key sqitch-plan-mode-map (kbd "C-c r") 'sqitch-plan-find-revert-script)
   (define-key sqitch-plan-mode-map (kbd "C-c C-r") 'sqitch-plan-find-revert-script))
 
+(defvar sqitch-plan-highligts nil "first element for `font-lock-defaults'")
+(setq sqitch-plan-highligts
+      '(
+        ;; pragmas
+        ("^[[:space:]]*\\(%\\)[[:space:]]*\\([^=]+\\)[[:space:]]*\\(=\\)[[:space:]]*\\([^\n]+\\)[[:space:]]*$" .
+         ((1 font-lock-type-face)
+          (2 font-lock-variable-name-face)
+          (3 font-lock-type-face)
+          (4 font-lock-string-face)
+          ))
+
+        ;; timestamp
+        ("[[:space:]]+\\([[:digit:]]\\{4\\}-[[:digit:]]\\{2\\}-[[:digit:]]\\{2\\}T[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}Z\\)[[:space:]]+" .
+         (1 font-lock-builtin-face))
+        ;; requirements
+        ("[[:space:]]+\\(\\[[^]]+\\][[:space:]]+\\)" . (1 font-lock-keyword-face))
+        ;; tags
+        ("^[[:space:]]*\\(@[^ ]+\\)" . (1 font-lock-warning-face))
+        ;; changes
+        ("^[[:space:]]*\\([^%@][^ ]+\\)" . (1 font-lock-constant-face))
+        ;; author
+        ("Z[[:space:]]+\\([^>]+>\\)" . (1 font-lock-string-face))
+        ))
+
+(defvar sqitch-plan-mode-syntax-table nil "Syntax table for `sqitch-plan-mode'")
+(setq sqitch-plan-mode-syntax-table
+      (let ((synTable (make-syntax-table)))
+        ;; perl style comment: "# …"
+        (modify-syntax-entry ?# "<" synTable)
+        (modify-syntax-entry ?\n ">" synTable)
+        synTable))
+
 ;;;###autoload
 (define-derived-mode sqitch-plan-mode text-mode "sqitch-plan"
   "Major mode for interacting with Sqitch plan files.
 
-\\{sqitch-plan-mode-map}")
+\\{sqitch-plan-mode-map}"
+  (setq font-lock-defaults '(sqitch-plan-highligts)))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("sqitch\.plan$" . sqitch-plan-mode))
