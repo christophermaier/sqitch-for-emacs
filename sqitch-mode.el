@@ -93,7 +93,10 @@
   (interactive)
   (let ((plan (sqitch-plan-file)))
     (if plan
-        (find-file plan)
+        (let ((changeset (file-name-base (buffer-file-name))))
+          (find-file plan)
+          (goto-char (point-max))
+          (search-backward-regexp (concat "^\s*" changeset "\s+")))
       (message "Could not find a Sqitch plan file for '%s'" (buffer-file-name)))))
 
 (defvar sqitch-mode-keymap nil "sqitch-mode keymap")
