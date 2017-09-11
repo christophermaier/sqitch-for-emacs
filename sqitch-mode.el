@@ -93,11 +93,21 @@
   (interactive)
   (let ((plan (sqitch-plan-file)))
     (if plan
-        (let ((changeset (file-name-base (buffer-file-name))))
+        (let (changeset change-re tag)
+          (setq changeset
+                (split-string (file-name-base (buffer-file-name)) "@" t split-string-default-separators))
+          (setq change-re (concat "^\s*" (car changeset) "\s+"))
+          (setq tag (car (cdr changeset)))
           (find-file plan)
-          (goto-char (point-max))
-          (search-backward-regexp (concat "^\s*" changeset "\s+")))
-      (message "Could not find a Sqitch plan file for '%s'" (buffer-file-name)))))
+          (if tag
+              (progn
+                (goto-char (point-min))
+                (search-forward-regexp (concat "^\s*@" tag "\s+"))
+                (search-forward-regexp change-re))
+            (goto-char (point-max))
+            (search-backward-regexp change-re))
+          (back-to-indentation))
+      (message "Could not find a Sqitch plan file for '%s'" (file-name-base (buffer-file-name))))))
 
 (defvar sqitch-mode-keymap nil "sqitch-mode keymap")
 (if sqitch-mode-keymap
